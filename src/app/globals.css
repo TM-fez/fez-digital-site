@@ -9,31 +9,34 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
   --color-accent: var(--accent);
-  
+  --color-destructive: var(--destructive);
+
   --font-sans: var(--font-inter), sans-serif;
   --font-heading: var(--font-outfit), sans-serif;
 }
 
 :root {
-  --background: #faf9f5;      /* Warm Plaster/Cream */
-  --foreground: #1c1a14;      /* Deep Dark Charcoal/Espresso */
-  --primary: #c96442;         /* Terracotta/Rust Accent */
-  --primary-foreground: #faf9f5; /* Warm Cream contrast */
-  --muted: #f1ede3;           /* Light Plaster Gray */
-  --muted-foreground: #706856;  /* Neutral Warm Gray */
-  --border: #e6e2d8;          /* Warm Slate Border */
-  --accent: #f1ede3;          /* Light Plaster Gray */
+  --background: #f8fbf9;      /* Bright mint-tinted white */
+  --foreground: #0f1d17;      /* Deep emerald-black */
+  --primary: #0e8a5f;         /* Premium emerald */
+  --primary-foreground: #ffffff; /* White contrast */
+  --muted: #e9f4ef;           /* Pale mint */
+  --muted-foreground: #5f7068;  /* Soft green gray */
+  --border: #dcebe3;          /* Light sage border */
+  --accent: #e9f4ef;          /* Pale mint */
+  --destructive: #dc2626;     /* Red */
 }
 
 .dark {
-  --background: #15130e;      /* Deep Rich Espresso */
-  --foreground: #f4f1ea;      /* Soft Warm White */
-  --primary: #e6734e;         /* Light Terracotta */
-  --primary-foreground: #15130e; /* Espresso contrast */
-  --muted: #24211a;           /* Dark Plaster Gray */
-  --muted-foreground: #a69d8a;  /* Muted Soft Gray */
-  --border: #2e2a22;          /* Muted Dark Border */
-  --accent: #24211a;          /* Dark Plaster Gray */
+  --background: #08140e;      /* Deep emerald-black */
+  --foreground: #e8f2ec;      /* Soft mint white */
+  --primary: #34d399;         /* Luminous emerald */
+  --primary-foreground: #08140e; /* Deep emerald contrast */
+  --muted: #13241c;           /* Dark forest */
+  --muted-foreground: #8fa89c;  /* Muted sage gray */
+  --border: #1e3329;          /* Dark forest border */
+  --accent: #13241c;          /* Dark forest */
+  --destructive: #f87171;     /* Light red */
 }
 
 

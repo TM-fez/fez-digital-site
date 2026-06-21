@@ -18,7 +18,7 @@ const Globe: React.FC<{
   rotationSpeed: number;
   radius: number;
   color?: string;
-}> = ({ rotationSpeed, radius, color = "#706856" }) => {
+}> = ({ rotationSpeed, radius, color = "#5cae87" }) => {
   const groupRef = useRef<THREE.Group>(null!);
 
   useFrame(() => {
@@ -50,7 +50,7 @@ const DotGlobeHero = React.forwardRef<
 >(({
   rotationSpeed = 0.005,
   globeRadius = 1,
-  globeColor = "#706856",
+  globeColor = "#5cae87",
   className,
   children,
   ...props

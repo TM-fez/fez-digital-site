@@ -55,6 +55,7 @@ export default function Home() {
   const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [bookingModalOpen, setBookingModalOpen] = useState(false);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -151,29 +152,37 @@ export default function Home() {
     }
   };
 
+  // Open the compact booking modal from anywhere
+  const openBooking = () => {
+    setMobileMenuOpen(false);
+    setActiveProjectModal(null);
+    setFormStatus("idle");
+    setBookingModalOpen(true);
+  };
+
   // LSP Stay Room details
   const lspRooms: RoomItem[] = [
     {
       title: "Deluxe Bedroom",
-      image: "/images/deluxe_bedroom.png",
+      image: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=1000&auto=format&fit=crop",
       price: "P1,200/night",
       desc: "Plush king-size bed, private balcony access, smart climate control.",
     },
     {
       title: "Private Pool",
-      image: "/images/pool_large.png",
+      image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=1000&auto=format&fit=crop",
       price: "Included",
       desc: "Tempered infinity pool, designer loungers, ambient evening lighting.",
     },
     {
       title: "Gourmet Kitchen",
-      image: "/images/kitchen_large.png",
+      image: "https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=1000&auto=format&fit=crop",
       price: "Self-catering",
       desc: "Premium marble island, state-of-the-art appliances, custom pantry.",
     },
     {
       title: "Standard Lounge",
-      image: "/images/standard_lounge.png",
+      image: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1000&auto=format&fit=crop",
       price: "Cozy space",
       desc: "Designer sofas, fireplace, acoustics-tuned layout.",
     },
@@ -293,7 +302,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col font-sans selection:bg-primary/20 transition-colors duration-300">
-      
+
       {/* 1. Header Section */}
       <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border transition-colors">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
@@ -342,7 +351,7 @@ export default function Home() {
               {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
             <button
-              onClick={() => scrollToId("consultation")}
+              onClick={() => openBooking()}
               className="px-5 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-all shadow-sm cursor-pointer"
             >
               Book Consultation
@@ -378,7 +387,7 @@ export default function Home() {
             <button onClick={() => scrollToId("pricing")} className="text-left py-2 font-medium hover:text-primary">Pricing</button>
             <button onClick={() => scrollToId("faq")} className="text-left py-2 font-medium hover:text-primary">FAQ</button>
             <button
-              onClick={() => scrollToId("consultation")}
+              onClick={() => openBooking()}
               className="w-full mt-2 py-3 rounded-lg bg-primary text-primary-foreground text-center font-semibold"
             >
               Book Consultation
@@ -424,10 +433,10 @@ export default function Home() {
               </span>
               <span className="block relative">
                 <span className="bg-gradient-to-br from-primary via-primary to-primary/60 bg-clip-text text-transparent font-black relative z-10">
-                  Replace Spreadsheets
+                  Built Around How You Work
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-primary/60 bg-clip-text text-transparent font-black blur-2xl opacity-50 scale-105 select-none">
-                  Replace Spreadsheets
+                  Built Around How You Work
                 </div>
                 <motion.div
                   initial={{ width: 0 }}
@@ -468,7 +477,7 @@ export default function Home() {
               onClick={() => scrollToId("proof")}
               whileHover={{ 
                 scale: 1.05, 
-                boxShadow: "0 20px 40px rgba(0,0,0,0.05), 0 0 25px rgba(201, 100, 66, 0.2)",
+                boxShadow: "0 20px 40px rgba(0,0,0,0.05), 0 0 25px rgba(14, 138, 95, 0.25)",
                 y: -2
               }}
               whileTap={{ scale: 0.98 }}
@@ -480,12 +489,12 @@ export default function Home() {
             </motion.button>
             
             <motion.button
-              onClick={() => scrollToId("consultation")}
+              onClick={() => openBooking()}
               whileHover={{ 
                 scale: 1.05,
                 backgroundColor: "var(--accent)",
                 borderColor: "var(--primary)",
-                boxShadow: "0 15px 30px rgba(0,0,0,0.02), 0 0 15px rgba(201, 100, 66, 0.05)",
+                boxShadow: "0 15px 30px rgba(0,0,0,0.02), 0 0 15px rgba(14, 138, 95, 0.12)",
                 y: -2
               }}
               whileTap={{ scale: 0.98 }}
@@ -538,14 +547,54 @@ export default function Home() {
                   <ArrowUpRight className="w-4 h-4" />
                 </button>
               </div>
-              <div className="w-full md:w-80 h-52 rounded-xl overflow-hidden border border-border bg-background relative shadow-inner flex items-center justify-center">
-                <img
-                  src="/images/deluxe_bedroom.png"
-                  alt="LSP Stay Deluxe Room Mockup"
-                  className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
-                  <div className="text-white text-xs font-semibold">Deluxe Bedroom concept</div>
+              {/* Booking platform mockup: 3D carousel + calendar + reservation */}
+              <div className="w-full md:w-80 h-52 rounded-xl border border-border bg-background p-3 flex flex-col justify-between shadow-inner relative group-hover:border-primary/30 transition-colors font-sans">
+                <div className="flex items-center justify-between border-b border-border pb-1.5">
+                  <span className="text-[10px] font-bold text-primary tracking-wide">LSP STAY</span>
+                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-primary/10 text-primary font-semibold">Reservation</span>
+                </div>
+
+                {/* Room carousel showcase */}
+                <div className="relative rounded-lg overflow-hidden h-[88px] mt-1.5 border border-border">
+                  <img
+                    src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=1000&auto=format&fit=crop"
+                    alt="LSP Stay featured room"
+                    className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500"
+                  />
+                  <div className="absolute top-1.5 right-1.5 bg-slate-900/80 backdrop-blur-md px-1.5 py-0.5 rounded text-white text-[8px] font-semibold border border-white/10">P1,200/night</div>
+                  <div className="absolute bottom-1.5 left-0 right-0 flex justify-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-white shadow"></span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-white/50"></span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-white/50"></span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-white/50"></span>
+                  </div>
+                </div>
+
+                {/* Calendar date-range logic */}
+                <div className="flex items-center gap-1 mt-1.5">
+                  {[
+                    { d: "20", on: false },
+                    { d: "21", on: true },
+                    { d: "22", on: true },
+                    { d: "23", on: true },
+                    { d: "24", on: true },
+                    { d: "25", on: false },
+                  ].map((c) => (
+                    <div
+                      key={c.d}
+                      className={`flex-1 text-center text-[8px] py-1 rounded ${
+                        c.on ? "bg-primary text-primary-foreground font-bold" : "bg-muted text-muted-foreground"
+                      }`}
+                    >
+                      {c.d}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Reservation summary bar */}
+                <div className="flex items-center justify-between border-t border-border pt-1.5 mt-1.5">
+                  <span className="text-[8px] text-muted-foreground">Aug 21 → 24 · 2 guests</span>
+                  <span className="text-[9px] px-2 py-0.5 rounded bg-primary text-primary-foreground font-bold">Reserve</span>
                 </div>
               </div>
             </div>
@@ -976,7 +1025,7 @@ export default function Home() {
                   A 1-hour workshop mapping your process, locating bottlenecks, and creating a step-by-step custom platform blueprint.
                 </p>
               </div>
-              <button onClick={() => scrollToId("consultation")} className="w-full py-3 rounded-lg border border-border hover:border-primary text-foreground font-semibold text-xs mt-8 transition-colors cursor-pointer">
+              <button onClick={() => openBooking()} className="w-full py-3 rounded-lg border border-border hover:border-primary text-foreground font-semibold text-xs mt-8 transition-colors cursor-pointer">
                 Book Discovery
               </button>
             </div>
@@ -998,7 +1047,7 @@ export default function Home() {
                   A fully functional, customized database platform designed to replace a single key spreadsheet or manual WhatsApp workflow in 14 days.
                 </p>
               </div>
-              <button onClick={() => scrollToId("consultation")} className="w-full py-3 rounded-lg bg-primary text-primary-foreground font-semibold text-xs mt-8 hover:opacity-90 transition-colors shadow-md shadow-primary/15 cursor-pointer">
+              <button onClick={() => openBooking()} className="w-full py-3 rounded-lg bg-primary text-primary-foreground font-semibold text-xs mt-8 hover:opacity-90 transition-colors shadow-md shadow-primary/15 cursor-pointer">
                 Build Pilot
               </button>
             </div>
@@ -1018,7 +1067,7 @@ export default function Home() {
                   Ongoing cloud hosting, support SLA, regular security updates, and incremental custom upgrades as your workflow expands.
                 </p>
               </div>
-              <button onClick={() => scrollToId("consultation")} className="w-full py-3 rounded-lg border border-border hover:border-primary text-foreground font-semibold text-xs mt-8 transition-colors cursor-pointer">
+              <button onClick={() => openBooking()} className="w-full py-3 rounded-lg border border-border hover:border-primary text-foreground font-semibold text-xs mt-8 transition-colors cursor-pointer">
                 Setup Support
               </button>
             </div>
@@ -1114,22 +1163,56 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 9. Book Consultation Form */}
-      <section id="consultation" className="py-24 border-t border-border bg-background transition-colors duration-300">
-        <div className="max-w-xl mx-auto px-6">
-          <div className="text-center mb-10">
-            <span className="text-xs font-semibold text-primary uppercase tracking-widest">
-              Get Started
-            </span>
-            <h2 className="text-3xl font-bold tracking-tight font-heading mt-2">
-              Book Consultation
-            </h2>
-            <p className="text-muted-foreground mt-2 font-sans text-sm">
-              Briefly describe your process bottlenecks. We'll map a pilot platform for you.
-            </p>
+      {/* 9. Book Consultation CTA Band (form lives in a modal — no long scroll) */}
+      <section id="consultation" className="py-20 border-t border-border bg-muted/10 transition-colors duration-300">
+        <div className="max-w-3xl mx-auto px-6">
+          <div className="relative overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 via-background to-primary/5 p-8 md:p-12 text-center shadow-lg">
+            <div className="absolute -top-16 -right-16 w-48 h-48 bg-primary/15 rounded-full blur-3xl" />
+            <div className="relative z-10 space-y-5">
+              <span className="text-xs font-semibold text-primary uppercase tracking-widest">Get Started</span>
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight font-heading">
+                Ready to replace the spreadsheets?
+              </h2>
+              <p className="text-muted-foreground font-sans max-w-xl mx-auto">
+                Tell us your biggest operational bottleneck and we&apos;ll map a pilot platform for you. Takes two minutes — no long forms.
+              </p>
+              <button
+                onClick={openBooking}
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-primary text-primary-foreground font-semibold text-sm hover:opacity-90 transition-all shadow-md shadow-primary/20 cursor-pointer"
+              >
+                Book Consultation
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
+        </div>
+      </section>
 
-          <div className="border border-border rounded-2xl bg-muted/20 p-6 md:p-8 hover:shadow-md transition-all text-left">
+      {/* 9b. Booking Modal (compact, popup form) */}
+      <AnimatePresence>
+        {bookingModalOpen && (
+          <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="bg-background w-full max-w-lg rounded-2xl border border-border shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+            >
+              <div className="px-6 py-4 border-b border-border flex items-center justify-between">
+                <div className="text-left">
+                  <span className="text-[10px] font-bold text-primary uppercase tracking-widest">Get Started</span>
+                  <h4 className="font-heading font-bold text-lg">Book Consultation</h4>
+                </div>
+                <button
+                  onClick={() => setBookingModalOpen(false)}
+                  className="p-2 rounded-lg border border-border hover:bg-muted text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                  aria-label="Close"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto p-6 text-left">
             {formStatus === "success" ? (
               <div className="text-center py-10 space-y-4 animate-fade-in font-sans">
                 <div className="w-14 h-14 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center mx-auto animate-bounce">
@@ -1139,6 +1222,12 @@ export default function Home() {
                 <p className="text-sm text-muted-foreground max-w-sm mx-auto leading-relaxed">
                   Thanks. We’ll review your process and respond within 2 business days.
                 </p>
+                <button
+                  onClick={() => setBookingModalOpen(false)}
+                  className="mt-2 px-5 py-2.5 rounded-lg border border-border text-sm font-semibold text-foreground hover:bg-muted transition-colors cursor-pointer"
+                >
+                  Close
+                </button>
               </div>
             ) : (
               <form onSubmit={handleFormSubmit} className="space-y-4">
@@ -1246,9 +1335,11 @@ export default function Home() {
                 </button>
               </form>
             )}
+              </div>
+            </motion.div>
           </div>
-        </div>
-      </section>
+        )}
+      </AnimatePresence>
 
       {/* 10. Footer Section */}
       <footer className="bg-slate-900 text-slate-400 py-12 border-t border-slate-800 transition-colors duration-300">
@@ -1270,7 +1361,7 @@ export default function Home() {
             <div className="flex gap-4 mt-2">
               <button onClick={() => scrollToId("proof")} className="hover:text-white transition-colors">Concepts</button>
               <button onClick={() => scrollToId("what-we-build")} className="hover:text-white transition-colors">What We Build</button>
-              <button onClick={() => scrollToId("consultation")} className="hover:text-white transition-colors">Contact</button>
+              <button onClick={() => openBooking()} className="hover:text-white transition-colors">Contact</button>
             </div>
           </div>
         </div>
@@ -1370,11 +1461,11 @@ export default function Home() {
                 <button
                   onClick={() => {
                     setActiveProjectModal(null);
-                    scrollToId("consultation");
+                    openBooking();
                   }}
                   className="px-4 py-2 rounded-lg bg-primary text-primary-foreground text-xs font-semibold hover:opacity-90 transition-colors cursor-pointer"
                 >
-                  Let's Build This For You
+                  Let&apos;s Build This For You
                 </button>
               </div>
             </motion.div>
@@ -1500,11 +1591,11 @@ export default function Home() {
                   onClick={() => {
                     setActiveProjectModal(null);
                     setTrainingEvidenceSubmitted(false);
-                    scrollToId("consultation");
+                    openBooking();
                   }}
                   className="px-4 py-2 rounded-lg bg-primary text-primary-foreground text-xs font-semibold hover:opacity-90 transition-colors cursor-pointer"
                 >
-                  Let's Build This For You
+                  Let&apos;s Build This For You
                 </button>
               </div>
             </motion.div>
@@ -1621,11 +1712,11 @@ export default function Home() {
                   onClick={() => {
                     setActiveProjectModal(null);
                     resetOpsSimulation();
-                    scrollToId("consultation");
+                    openBooking();
                   }}
                   className="px-4 py-2 rounded-lg bg-primary text-primary-foreground text-xs font-semibold hover:opacity-90 transition-colors cursor-pointer"
                 >
-                  Let's Build This For You
+                  Let&apos;s Build This For You
                 </button>
               </div>
             </motion.div>
