@@ -1,26 +1,47 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  
+  --font-sans: var(--font-inter), sans-serif;
+  --font-heading: var(--font-outfit), sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #faf9f5;      /* Warm Plaster/Cream */
+  --foreground: #1c1a14;      /* Deep Dark Charcoal/Espresso */
+  --primary: #c96442;         /* Terracotta/Rust Accent */
+  --primary-foreground: #faf9f5; /* Warm Cream contrast */
+  --muted: #f1ede3;           /* Light Plaster Gray */
+  --muted-foreground: #706856;  /* Neutral Warm Gray */
+  --border: #e6e2d8;          /* Warm Slate Border */
+  --accent: #f1ede3;          /* Light Plaster Gray */
 }
+
+.dark {
+  --background: #15130e;      /* Deep Rich Espresso */
+  --foreground: #f4f1ea;      /* Soft Warm White */
+  --primary: #e6734e;         /* Light Terracotta */
+  --primary-foreground: #15130e; /* Espresso contrast */
+  --muted: #24211a;           /* Dark Plaster Gray */
+  --muted-foreground: #a69d8a;  /* Muted Soft Gray */
+  --border: #2e2a22;          /* Muted Dark Border */
+  --accent: #24211a;          /* Dark Plaster Gray */
+}
+
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+
